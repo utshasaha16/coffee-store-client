@@ -3,7 +3,7 @@ import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
     const { _id, name, quantity, supplier, taste, category, details, photoUrl } = coffee;
     const handleDelete = _id => {
         console.log(_id);
@@ -25,12 +25,14 @@ const CoffeeCard = ({ coffee }) => {
                     .then(res => res.json())
                     .then(data => {
                         console.log(data);
-                        if (data.deleteCount > 0) {
+                        if (data.deletedCount > 0) {
                               Swal.fire({
                                 title: "Deleted!",
                                 text: "Your coffee has been deleted.",
                                 icon: "success"
                               });
+                              const remaining = coffees.filter(cof => cof._id !== _id);
+                              setCoffees(remaining)
                         }
                     })
 
